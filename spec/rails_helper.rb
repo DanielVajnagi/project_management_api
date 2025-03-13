@@ -37,6 +37,11 @@ RSpec.configure do |config|
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
+  # spec/rails_helper.rb
+  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+
+  config.include FactoryBot::Syntax::Methods
 
   Shoulda::Matchers.configure do |shoulda_config|
     shoulda_config.integrate do |with|

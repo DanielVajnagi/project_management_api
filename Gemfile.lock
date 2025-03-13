@@ -253,6 +253,10 @@ GEM
     securerandom (0.4.1)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
+    simple_token_authentication (1.18.1)
+      actionmailer (>= 3.2.6, < 8)
+      actionpack (>= 3.2.6, < 8)
+      devise (>= 3.2, < 6)
     stringio (3.1.5)
     thor (1.3.2)
     timeout (0.4.3)
@@ -288,6 +292,7 @@ DEPENDENCIES
   rspec-rails
   rubocop-rails-omakase
   shoulda-matchers
+  simple_token_authentication
   tzinfo-data
 
 BUNDLED WITH
