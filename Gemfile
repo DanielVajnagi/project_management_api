@@ -51,3 +51,5 @@ end
 
 gem "devise", "~> 4.9"
 gem "simple_token_authentication"
+
+gem "byebug", "~> 11.1", :groups => [:development, :test]

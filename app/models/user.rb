@@ -5,4 +5,5 @@ class User < ApplicationRecord
   acts_as_token_authenticatable
 
   validates :password_confirmation, presence: true, on: :create
+  validates :authentication_token, uniqueness: true, allow_nil: true
 end
