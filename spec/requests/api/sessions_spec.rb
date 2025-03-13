@@ -10,9 +10,6 @@ RSpec.describe 'Sessions API', type: :request do
     context 'with valid credentials' do
       it 'returns the authentication token' do
         post api_user_session_path, params: valid_credentials.to_json, headers: headers
-        puts response.body
-        puts user.password
-        puts valid_credentials
 
         expect(response).to have_http_status(:created)
         expect(json['token']).to be_present
