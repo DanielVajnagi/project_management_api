@@ -1,8 +1,8 @@
 class Api::ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:show]
-  before_action :set_project_for_modification, only: [:update, :destroy]
-  before_action :authorize_owner, only: [:update, :destroy]
+  before_action :set_project, only: [ :show ]
+  before_action :set_project_for_modification, only: [ :update, :destroy ]
+  before_action :authorize_owner, only: [ :update, :destroy ]
 
   # GET /api/projects
   def index

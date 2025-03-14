@@ -2,7 +2,7 @@ class Api::TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
   before_action :authorize_owner
-  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :set_task, only: [ :show, :update, :destroy ]
 
   # GET /api/projects/:project_id/tasks
   def index

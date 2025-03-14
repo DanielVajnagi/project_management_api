@@ -40,7 +40,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails"
-  gem 'faker'
+  gem "faker"
 end
 
 group :test do
@@ -51,8 +51,8 @@ end
 
 
 gem "devise", "~> 4.9"
-gem 'devise-jwt'
+gem "devise-jwt"
 
 gem "simple_token_authentication"
 
-gem "byebug", "~> 11.1", :groups => [:development, :test]
+gem "byebug", "~> 11.1", groups: [ :development, :test ]
