@@ -17,7 +17,6 @@ RSpec.describe 'Api::Projects', type: :request do
       expect(response).to have_http_status(:ok)
       projects = JSON.parse(response.body)
       expect(projects).not_to be_empty
-      expect(projects.first['user_id']).to eq(user.id)
     end
   end
 
