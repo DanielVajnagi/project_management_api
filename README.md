@@ -1,7 +1,3 @@
-Below is an example README file that documents all of the features of your application:
-
----
-
 # Project Manager API
 
 This Rails API application allows authenticated users to manage their projects and tasks. Projects are owned by users, and each project can have multiple tasks. Tasks support filtering by status.
@@ -36,14 +32,14 @@ This Rails API application allows authenticated users to manage their projects a
 - **Update a Project:**
   `PATCH/PUT /api/projects/:id`
   Updates an existing project.
-  - Only the project owner is authorized to update it; attempts by other users will return **403 Forbidden**.
-  - If the project is not found, returns **404 Not Found**.
+  - Only the project owner is authorized to update it.
+  - If the project is not found, or is not owned by user returns **404 Not Found**.
 
 - **Delete a Project:**
   `DELETE /api/projects/:id`
   Deletes a project.
-  - Only the project owner can delete it; otherwise, returns **403 Forbidden**.
-  - Returns **404 Not Found** if the project doesn’t exist.
+  - Only the project owner can delete it.
+  - Returns **404 Not Found** if the project doesn’t exist or is not owned by user.
 
 ### Tasks API
 
