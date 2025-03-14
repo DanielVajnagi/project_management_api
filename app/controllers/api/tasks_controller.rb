@@ -1,9 +1,8 @@
 class Api::TasksController < ApplicationController
-  include Devise::Controllers::Helpers  # Ensure Devise helpers are available
-
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_task, only: %i[show update destroy]
+  before_action :authorize_owner
+  before_action :set_task, only: [:show, :update, :destroy]
 
   # GET /api/projects/:project_id/tasks
   def index
@@ -46,6 +45,12 @@ class Api::TasksController < ApplicationController
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Project not found" }, status: :not_found
+  end
+
+  def authorize_owner
+    unless @project.user_id == current_user.id
+      render json: { error: "You are not authorized to modify tasks for this project" }, status: :forbidden
+    end
   end
 
   def set_task
