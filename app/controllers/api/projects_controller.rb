@@ -14,7 +14,7 @@ class Api::ProjectsController < ApplicationController
                               .select(:id, :title, :description)
                               .references(:tasks)
     end
-    render json: @projects, include: :tasks
+    render json: @projects, include: { tasks: { only: [ :id, :title, :status ] } }
   end
 
   # GET /api/projects/:id
