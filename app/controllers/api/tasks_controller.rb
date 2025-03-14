@@ -7,7 +7,7 @@ class Api::TasksController < ApplicationController
   # GET /api/projects/:project_id/tasks
   def index
     tasks = @project.tasks
-    # Якщо параметр "status" передано і він не порожній, застосовуємо фільтрацію
+    # If the "status" parameter is provided and is not empty, apply filtering.
     if params[:status].present? && Task.statuses.keys.include?(params[:status])
       tasks = tasks.where(status: params[:status])
     end
