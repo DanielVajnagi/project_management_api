@@ -36,7 +36,7 @@ RSpec.describe 'Api::Projects', type: :request do
 
       expect(response).to have_http_status(:not_found)
       error_response = JSON.parse(response.body)
-      expect(error_response['error']).to eq('Project not found')
+      expect(error_response['error']).to eq('Project not found or you are not authorized to modify this project')
     end
   end
 
@@ -74,13 +74,13 @@ RSpec.describe 'Api::Projects', type: :request do
       expect(project.title).to eq('Updated Title')
     end
 
-    it 'returns forbidden when trying to update a project not owned by the user' do
+    it 'returns not found when trying to update a project not owned by the user' do
       other_user = create(:user)
       other_project = create(:project, user: other_user, title: 'Other Title')
 
       patch "/api/projects/#{other_project.id}", params: { project: { title: 'Hacked Title' } }, headers: headers
 
-      expect(response).to have_http_status(:forbidden)
+      expect(response).to have_http_status(:not_found)
       other_project.reload
       expect(other_project.title).to eq('Other Title')
     end
@@ -97,13 +97,13 @@ RSpec.describe 'Api::Projects', type: :request do
       expect(response).to have_http_status(:no_content)
     end
 
-    it 'returns forbidden when trying to delete a project not owned by the user' do
+    it 'returns not found when trying to delete a project not owned by the user' do
       other_user = create(:user)
       other_project = create(:project, user: other_user)
 
       delete "/api/projects/#{other_project.id}", headers: headers
 
-      expect(response).to have_http_status(:forbidden)
+      expect(response).to have_http_status(:not_found)
       expect(Project.exists?(other_project.id)).to be_truthy
     end
   end

@@ -1,8 +1,8 @@
 class Api::ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [ :show ]
-  before_action :set_project_for_modification, only: [ :update, :destroy ]
-  before_action :authorize_owner, only: [ :update, :destroy ]
+  before_action :set_project, only: [ :show, :update, :destroy ]
+  # before_action :authorize_owner,
+  # before_action :set_project_for_modification, only: [ :update, :destroy ]
 
   # GET /api/projects
   def index
@@ -65,21 +65,7 @@ class Api::ProjectsController < ApplicationController
   def set_project
     @project = current_user.projects.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Project not found" }, status: :not_found
-  end
-
-  # For update and destroy, load the project regardless of the owner,
-  # then check ownership in authorize_owner.
-  def set_project_for_modification
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "Project not found" }, status: :not_found
-  end
-
-  def authorize_owner
-    unless @project.user_id == current_user.id
-      render json: { error: "You are not authorized to modify this project" }, status: :forbidden
-    end
+    render json: { error: "Project not found or you are not authorized to modify this project" }, status: :not_found
   end
 
   def project_params
