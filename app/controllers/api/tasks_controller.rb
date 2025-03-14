@@ -6,7 +6,12 @@ class Api::TasksController < ApplicationController
 
   # GET /api/projects/:project_id/tasks
   def index
-    render json: @project.tasks
+    tasks = @project.tasks
+    # Якщо параметр "status" передано і він не порожній, застосовуємо фільтрацію
+    if params[:status].present? && Task.statuses.keys.include?(params[:status])
+      tasks = tasks.where(status: params[:status])
+    end
+    render json: tasks
   end
 
   # POST /api/projects/:project_id/tasks
