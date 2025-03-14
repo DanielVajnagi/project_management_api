@@ -1,7 +1,7 @@
 class Api::TasksController < ApplicationController
   include Devise::Controllers::Helpers  # Ensure Devise helpers are available
 
-  before_action :authenticate_user_from_token!
+  before_action :authenticate_user!
   before_action :set_project
   before_action :set_task, only: %i[show update destroy]
 
@@ -41,25 +41,6 @@ class Api::TasksController < ApplicationController
   end
 
   private
-
-  def authenticate_user_from_token!
-    auth_header = request.headers["Authorization"]
-
-    if auth_header.nil? || !auth_header.start_with?("Bearer ")
-      render json: { error: "Unauthorized" }, status: :unauthorized
-      return
-    end
-
-    token = auth_header.split(" ").last
-    user = User.find_by(authentication_token: token)
-
-    if user
-      @current_user = user
-    else
-      render json: { error: "Unauthorized" }, status: :unauthorized
-    end
-  end
-
 
   def set_project
     @project = Project.find(params[:project_id])

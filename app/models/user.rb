@@ -1,9 +1,8 @@
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
   has_many :projects, dependent: :destroy
 
-  devise :database_authenticatable, :registerable, :recoverable, :validatable
-  acts_as_token_authenticatable
-
-  validates :password_confirmation, presence: true, on: :create
-  validates :authentication_token, uniqueness: true, allow_nil: true
+  devise :database_authenticatable, :registerable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 end

@@ -1,5 +1,5 @@
 class Api::ProjectsController < ApplicationController
-  before_action :authenticate_user_from_token!
+  before_action :authenticate_user!
   before_action :set_project, only: %i[show update destroy]
 
   # GET /api/projects
@@ -13,7 +13,7 @@ class Api::ProjectsController < ApplicationController
     render json: @project, include: :tasks
   end
 
-  # POST /api/projects
+  # POST /projects
   def create
     @project = current_user.projects.build(project_params)
     if @project.save
@@ -23,7 +23,7 @@ class Api::ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /api/projects/:id
+  # PATCH/PUT /projects/:id
   def update
     if @project.update(project_params)
       render json: @project
@@ -39,26 +39,6 @@ class Api::ProjectsController < ApplicationController
   end
 
   private
-
-  def authenticate_user_from_token!
-    auth_header = request.headers["Authorization"]
-
-    # Check if Authorization header is present and formatted correctly
-    if auth_header.nil? || !auth_header.start_with?("Bearer ")
-      render json: { error: "Unauthorized" }, status: :unauthorized
-      return
-    end
-
-    token = auth_header.split(" ").last
-    user = User.find_by(authentication_token: token)
-
-    if user
-      @current_user = user # Set current_user manually
-    else
-      render json: { error: "Unauthorized" }, status: :unauthorized
-    end
-  end
-
 
   def set_project
     @project = current_user.projects.find(params[:id])
