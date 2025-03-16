@@ -36,7 +36,7 @@ RSpec.describe 'Api::Projects', type: :request do
 
       expect(response).to have_http_status(:not_found)
       error_response = JSON.parse(response.body)
-      expect(error_response['error']).to eq('Project not found or you are not authorized to modify this project')
+      expect(error_response['error']).to eq('Project not found or you are not authorized to modify it')
     end
   end
 
@@ -81,6 +81,8 @@ RSpec.describe 'Api::Projects', type: :request do
       patch "/api/projects/#{other_project.id}", params: { project: { title: 'Hacked Title' } }, headers: headers
 
       expect(response).to have_http_status(:not_found)
+      error_response = JSON.parse(response.body)
+      expect(error_response['error']).to eq('Project not found or you are not authorized to modify it')
       other_project.reload
       expect(other_project.title).to eq('Other Title')
     end
@@ -94,7 +96,7 @@ RSpec.describe 'Api::Projects', type: :request do
         delete "/api/projects/#{project.id}", headers: headers
       }.to change(Project, :count).by(-1)
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns not found when trying to delete a project not owned by the user' do
@@ -104,6 +106,8 @@ RSpec.describe 'Api::Projects', type: :request do
       delete "/api/projects/#{other_project.id}", headers: headers
 
       expect(response).to have_http_status(:not_found)
+      error_response = JSON.parse(response.body)
+      expect(error_response['error']).to eq('Project not found or you are not authorized to modify it')
       expect(Project.exists?(other_project.id)).to be_truthy
     end
   end
