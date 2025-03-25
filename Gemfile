@@ -55,4 +55,4 @@ gem "devise-jwt"
 
 gem "simple_token_authentication"
 
-gem "byebug", "~> 11.1", groups: [ :development, :test ]
+gem "byebug", "~> 12.0", groups: [ :development, :test ]
